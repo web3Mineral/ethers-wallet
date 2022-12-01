@@ -1,6 +1,7 @@
 import React from 'react'
 import "./pages.css"
-import {Wallet,ethers} from "ethers"
+import {Wallet, ethers} from "ethers"
+import { useNavigate } from 'react-router-dom'
 
 let k1;
 let k2;
@@ -15,11 +16,12 @@ let k10;
 let k11;
 let k12;
 
-export default function createwallet() {
+export default function Createwallet() {
     const userWalletKeys = Wallet.createRandom().mnemonic
     const userWallet = ethers.Wallet.fromMnemonic(userWalletKeys.phrase)
 
     const words = userWalletKeys.phrase.split(" ")
+    let navigate = useNavigate();
 
     console.log(words);
     console.log(userWallet);
@@ -39,10 +41,11 @@ export default function createwallet() {
     k12 = `12: ${words[11]}`;
 
     const copykeys = () => {
-        return null
+        navigator.clipboard.writeText(userWalletKeys.phrase)
     }
     const create = () => {
-
+        localStorage.setItem("pkey", userWallet.privateKey)
+        navigate("/home")
     }
 
     return (
